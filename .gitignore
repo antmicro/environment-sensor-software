@@ -7,10 +7,13 @@
 .venv
 .python-version
 
-# build
-zephyr_app/build*
-
 __pycache__/
 
 # gdb
 .gdb_history
+
+# zephyr specific
+zephyr
+modules
+.west
+firmware/build
