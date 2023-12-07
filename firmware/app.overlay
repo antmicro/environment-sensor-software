@@ -1,0 +1,58 @@
+/*
+ * Copyright (c) 2023 Antmicro Ltd.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+&clk_hse {
+	clock-frequency = <DT_FREQ_M(8)>;
+	status = "okay";
+};
+
+&pll {
+	div-m = <2>;
+	mul-n = <85>;
+	div-p = <7>;
+	div-q = <2>;
+	div-r = <2>;
+	clocks = <&clk_hse>;
+	status = "okay";
+};
+
+&rtc {
+	clocks = < &rcc 0x58 0x400 >, < &rcc 0x4 0x16890 >;
+};
+
+&clk_lse {
+	status = "okay";
+};
+
+&clk_lsi {
+	status = "disabled";
+};
+
+&i2c1 {
+	pinctrl-0 = <&i2c1_scl_pb8 &i2c1_sda_pb9>;
+	pinctrl-names = "default";
+	status = "okay";
+
+	bme280@76 {
+		compatible = "bosch,bme280";
+		reg = <0x76>;
+	};
+	sht4x@44 {
+		compatible = "sensirion,sht4x";
+		repeatability = <2>;
+		reg = <0x44>;
+	};
+	mb85rc1mt@50 {
+		compatible = "fujitsu,mb85rcxx";
+		size = <131072>;
+		address-width = <16>;
+		reg = <0x50>;
+	};
+};
+
+&usart1 {
+	status = "disabled";
+};

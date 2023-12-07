@@ -1,0 +1,8 @@
+BinPackArguments: false
+ColumnLimit: 120
+DerivePointerAlignment: false
+IndentWidth: 4
+UseTab: Never
+PointerAlignment: Left
+ReferenceAlignment: Left
+FixNamespaceComments: false

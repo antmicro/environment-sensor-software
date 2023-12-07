@@ -1,0 +1,23 @@
+using sysbus
+
+macro configure
+"""
+    machine LoadPlatformDescription @sensor_board.repl
+    showAnalyzer sysbus.lpuart1
+    sysbus LoadELF @../build/zephyr/zephyr.elf
+"""
+
+emulation CreateUartPtyTerminal "term0" "/tmp/ttyUSB0"
+mach create "envsens0"
+runMacro $configure
+connector Connect sysbus.lpuart1 term0
+
+#emulation CreateUartPtyTerminal "term1" "/tmp/ttyUSB1"
+#mach create "envsens1"
+#runMacro $configure
+#connector Connect sysbus.lpuart1 term1
+
+#emulation CreateUartPtyTerminal "term2" "/tmp/ttyUSB2"
+#mach create "envsens2"
+#runMacro $configure
+#connector Connect sysbus.lpuart1 term2

@@ -1,0 +1,13 @@
+[project]
+name="antenvsens-monitor"
+version="0.0.6"
+authors = [{ name="Antmicro", email="contact@antmicro.com" }]
+license = { text = "Apache-2.0" }
+description = "Data reception and configuration utility for the Antmicro's environmental sensor"
+dynamic = ["dependencies"]
+
+[project.scripts]
+antenvsens-monitor = 'antenvsens_monitor:main'
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}

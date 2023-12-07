@@ -1,0 +1,10 @@
+bme280: I2C.BME280 @ i2c1 0x76
+sht45: I2C.SHT45 @ i2c1 0x44
+
+mb85rc1mt: I2C.MB85RC1MT
+mb85rc1mt_lo: I2C.MB85RC1MTLo @ i2c1 0x50
+    mb85rc1mt: mb85rc1mt
+mb85rc1mt_hi: I2C.MB85RC1MTHi @ i2c1 0x51
+    mb85rc1mt: mb85rc1mt
+
+

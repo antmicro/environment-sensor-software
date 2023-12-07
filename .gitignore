@@ -1,0 +1,16 @@
+# editors
+.vscode
+*.swp
+*~
+
+# python
+.venv
+.python-version
+
+# build
+zephyr_app/build*
+
+__pycache__/
+
+# gdb
+.gdb_history

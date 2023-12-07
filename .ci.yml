@@ -1,0 +1,8 @@
+stages:
+  - validate_formatting
+  - build
+  - test
+
+include:
+  - local: 'firmware/.ci.yml'
+  - local: 'monitor/.ci.yml'
