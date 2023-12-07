@@ -24,7 +24,7 @@ Initialize a `west` workspace within the project directory:
 
 ```shell
 pip install west
-west init -l
+west init -l firmware
 west update
 ```
 
@@ -33,7 +33,7 @@ west update
 Build the application, run the following command:
 
 ```shell
-west build -b  nucleo_g474re
+west build -b nucleo_g474re
 ```
 
 ### Flashing the MCU
