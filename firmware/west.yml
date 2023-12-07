@@ -3,8 +3,15 @@
 # SPDX-License-Identifier: Apache-2.0
 
 manifest:
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+
   projects:
     - name: zephyr
-      url: https://github.com/zephyrproject-rtos/zephyr
+      remote: zephyrproject-rtos
       revision: main
-      import: true
+      import:
+        name-allowlist:
+          - cmsis
+          - hal_stm32
