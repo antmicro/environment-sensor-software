@@ -1,4 +1,4 @@
-# Antmicro Enviroment Sensor software
+# Antmicro Environment Sensor software
 
 Copyright (c) 2023 [Antmicro](https://antmicro.com/)
 
@@ -40,14 +40,14 @@ west build -b nucleo_g474re
 
 To program the app into the MCU's flash, connect a USB cable to the target and run:
 
-#### Enviroment Sensor rev. 1.0.0
+#### Environment Sensor rev. 1.0.0
 
 ```shell
 west flash --config ./ft4232h_jtag.cfg 
 ```
 (will not work without the `./`)
 
-#### Enviroment Sensor rev. 1.1.0
+#### Environment Sensor rev. 1.1.0
 
 ```shell
 west flash --config ./ft232r_jtag.cfg
@@ -56,14 +56,14 @@ west flash --config ./ft232r_jtag.cfg
 Alternatively, you may omit `west` by using [OpenOCD](https://github.com/openocd-org/openocd/tree/v0.11.0), clone it and compile with:
 
 ```shell
-./bootstrap 
+./bootstrap
 ./configure --enable-ft232r
 make
 sudo make install
 ```
 
 
-#### Enviroment Sensor rev. 1.0.0
+#### Environment Sensor rev. 1.0.0
 
 ```shell
 openocd -f ./ft4232h_jtag.cfg -c "init; program build/zephyr/zephyr.elf verify reset exit"
@@ -73,8 +73,8 @@ For the board to autostart from flash, the `nBOOT0` option bit must be set. This
 ```shell
 openocd -f ./ft4232h_jtag.cfg -c "init; stm32l4x option_write 0 0x20 0xfbeff8aa;" -c "stm32l4x option_read 0 0x20" -c "reset; exit"
 ```
-#### Enviroment Sensor rev. 1.1.0
-since rev. 1.1.0 uses diffrent FTDI chip, we can program it with:
+#### Environment Sensor rev. 1.1.0
+since rev. 1.1.0 uses different FTDI chip, we can program it with:
 
 ```shell
 openocd -f ./ft232r_jtag.cfg  -c "init; program build/zephyr/zephyr.elf verify reset exit"
@@ -87,13 +87,13 @@ openocd -f ./ft232r_jtag.cfg  -c "init; stm32l4x option_write 0 0x20 0xfbeff8aa;
 
 ### Console
 
-#### Enviroment Sensor rev. 1.0.0
+#### Environment Sensor rev. 1.0.0
 
 ```shell
 picocom /dev/ttyUSB2 -b 115200
 ```
 
-#### Enviroment Sensor rev. 1.1.0
+#### Environment Sensor rev. 1.1.0
 
 ```shell
 picocom /dev/ttyUSB0 -b 115200
@@ -120,30 +120,30 @@ Use `antenvsens-monitor <args>` after installation. You can also use `antenvsens
 
 The sensor monitor application can be run with following arguments:
 
-* `--time` or `-t`  
+* `--time` or `-t`
 Sets sensor time to current time
-* `--period` or `-p <NUMBER>`  
+* `--period` or `-p <NUMBER>`
 Sets the time (in seconds) between consecutive measurements
-* `--get` or `-g`  
+* `--get` or `-g`
 Retrieves data and saves it to output files. The data is removed from the sensor after reading
-* `--temperature-source` or `-ts <SOURCE>`  
+* `--temperature-source` or `-ts <SOURCE>`
 Selects the source of temperature data. Available options are: `none`, `both`, `avg`, `bme`, `sht`. Defaults to `avg`. See the [Sources](sources) section
-* `--humidity-source` or `-hs <SOURCE>`  
+* `--humidity-source` or `-hs <SOURCE>`
 Selects the source of humidity data. Available options are: `none`, `both`, `avg`, `bme`, `sht`. Defaults to `avg`. See the [Sources](sources) section
-* `--pressure-source` or `-ps <SOURCE>`  
+* `--pressure-source` or `-ps <SOURCE>`
 Selects the source of pressure data. Available options are: `none`, `bme`. Defaults to `bme`. See the [Sources](sources) section
-* `--field-separator` or `-fs <SEPARATOR>`  
+* `--field-separator` or `-fs <SEPARATOR>`
 Specifies the field separator. Defaults to `' '`
-* `--output-path` or `-o <PATH>`  
+* `--output-path` or `-o <PATH>`
 Specifies the output path for the retrieved sensor data
-* `--allow-invalid-names`  
+* `--allow-invalid-names`
 Prepends device names with serial port names. This allows for unnamed devices or ones with duplicated names
-* `--verbose` or `-v`  
+* `--verbose` or `-v`
 Prints additional debug information during program execution
 
 #### Sources
 
-The Sensor board has two environmental sensors: Sensirion SHT45 and Bosch BME280. Both of them measure temperature and humidity. Additionally, BME280 measures pressure.  
+The Sensor board has two environmental sensors: Sensirion SHT45 and Bosch BME280. Both of them measure temperature and humidity. Additionally, BME280 measures pressure.
 The monitor script allows the following configurations of environmental data source:
 
 * `none` - this particular measurement won't be included in the output
