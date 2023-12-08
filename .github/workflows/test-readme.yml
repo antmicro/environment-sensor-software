@@ -1,0 +1,24 @@
+name: test-readme
+run-name: Test README manuals
+on:
+  push:
+    branches:
+     - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    container: ghcr.io/zephyrproject-rtos/ci:v0.26.2
+    env:
+      CMAKE_PREFIX_PATH: /opt/toolchains
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install tuttest
+        run: pip install -e git+https://github.com/antmicro/tuttest#egg=tuttest
+      - name: Test INITIALIZE commands from README
+        run: |
+          tuttest README.md initialize-zephyr | bash -o pipefail -
+      - name: Test BUILD commands from README
+        run: |
+          tuttest README.md build-zephyr | bash -o pipefail -
