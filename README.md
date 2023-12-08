@@ -22,8 +22,8 @@ environment. Follow the official
 
 Initialize a `west` workspace within the project directory:
 
+<!-- name="initialize-zephyr" -->
 ```shell
-pip install west
 west init -l firmware
 west update
 ```
@@ -32,7 +32,9 @@ west update
 
 Build the application, run the following command:
 
+<!-- name="build-zephyr" -->
 ```shell
+cd firmware
 west build -b nucleo_g474re
 ```
 
