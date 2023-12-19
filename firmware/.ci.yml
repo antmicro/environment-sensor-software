@@ -1,22 +1,14 @@
-check_formatting:
+validate-formatting:
   stage: validate_formatting
-  image: alpine:3.18.4
+  image: debian:bookworm
   script:
-    - cd firmware
-    - apk add clang-extra-tools git
-    - echo $(clang-format --version)
-    - find src/ -iname '*.h' -o -iname '*.cpp' | xargs clang-format -i --style=file:.clang-format
-    - $([ -z "$(git status --porcelain)" ]);
+    - ./firmware/ci.sh check-formatting
 
-build_outputs:
+build-firmware:
    stage: build
    image: zephyrprojectrtos/ci:v0.26.5
    script:
-    - cd firmware
-    - west init -l .
-    - west update
-    - west build -b nucleo_g474re
-
+    - ./firmware/ci.sh build-firmware
    artifacts:
      expire_in: 2 week
      paths:
@@ -26,20 +18,9 @@ build_outputs:
        - firmware/build/zephyr/zephyr.lst
        - firmware/build/zephyr/zephyr.map
 
-zephyr_app_tests:
+test-firmware:
   stage: test
   image: debian:bookworm
-  before_script:
-    - apt -qy update > /dev/null 2> /dev/null
-    - apt -qy install python3-dev git gcc pipx python3-venv > /dev/null 2> /dev/null
   script:
-    - cd firmware
     - PATH="/root/.local/bin:$PATH"
-    - pipx install git+https://github.com/antmicro/renode-run
-    - renode-run download
-    - python3 -m venv renode-test
-    - source renode-test/bin/activate
-    - pip3 install -r /root/.config/renode/renode-run.download/renode_*_portable/tests/requirements.txt
-    - pip3 install pyserial
-    - renode-run test --venv renode-test -- tests/simple_tests.robot
-    - renode-run test --venv renode-test -- tests/complex_tests.robot
+    - ./firmware/ci.sh test-firmware
