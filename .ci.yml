@@ -6,3 +6,11 @@ stages:
 include:
   - local: 'firmware/.ci.yml'
   - local: 'monitor/.ci.yml'
+
+test-readme:
+  stage: test
+  image: zephyrprojectrtos/ci:v0.26.5
+  script: |
+    pip install -e git+https://github.com/antmicro/tuttest#egg=tuttest
+    tuttest README.md initialize-zephyr | bash -o pipefail -
+    tuttest README.md build-zephyr | bash -o pipefail -

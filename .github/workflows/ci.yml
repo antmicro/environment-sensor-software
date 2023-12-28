@@ -1,0 +1,74 @@
+name: "test"
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate-formatting:
+    name: "Validate formatting"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Validate formatting
+        run: |
+          ./firmware/ci.sh check-formatting
+
+  build-firmware:
+    name: "Build firmware"
+    runs-on: ubuntu-latest
+    container: zephyrprojectrtos/ci:v0.26.5
+    env:
+      CMAKE_PREFIX_PATH: /opt/toolchains
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build
+        run: |
+          ./firmware/ci.sh build-firmware
+      - name: "Upload artifacts"
+        uses: actions/upload-artifact@v3
+        with:
+          name: firmware
+          path: |
+            firmware/build/zephyr/zephyr.bin
+            firmware/build/zephyr/zephyr.elf
+            firmware/build/zephyr/zephyr.hex
+            firmware/build/zephyr/zephyr.lst
+            firmware/build/zephyr/zephyr.map
+
+  test-firmware:
+    name: "Test firmware"
+    runs-on: ubuntu-latest
+    needs: [build-firmware]
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: download firmware artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: firmware
+      - name: Run tests
+        run: |
+          mkdir -p ./firmware/build/zephyr
+          cp ./zephyr.elf ./firmware/build/zephyr/zephyr.elf
+          ./firmware/ci.sh test-firmware
+
+  test-monitor:
+    name: "Test monitor"
+    runs-on: ubuntu-latest
+    needs: [build-firmware]
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: download firmware artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: firmware
+      - name: Run tests
+        run: |
+          mkdir -p ./firmware/build/zephyr
+          cp ./zephyr.elf ./firmware/build/zephyr/zephyr.elf
+          ./monitor/ci.sh
